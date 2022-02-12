@@ -5,18 +5,28 @@ import br.dev.multicode.games.api.http.responses.GameResponse
 import br.dev.multicode.games.entities.Game
 import br.dev.multicode.games.repositories.GameRepository
 import org.springframework.stereotype.Service
+import java.util.*
+import javax.persistence.EntityNotFoundException
 import javax.transaction.Transactional
 
 @Service
 @Transactional
 class GameService internal constructor(private val gameRepository: GameRepository)
 {
-    fun create(gameRequest: GameRequest): GameResponse {
+    fun create(gameRequest: GameRequest): GameResponse
+    {
         try {
             return gameRepository.save(Game.from(gameRequest))
                     .toGameResponse()
         } catch (e: Exception) {
             throw Exception("Failed to save game. ERROR: ".plus(e.message), e)
         }
+    }
+
+    fun findById(gameId: UUID): GameResponse
+    {
+        return gameRepository.findById(gameId.toString())
+                .map { gameFound -> gameFound.toGameResponse() }
+                .orElseThrow { EntityNotFoundException() }
     }
 }
