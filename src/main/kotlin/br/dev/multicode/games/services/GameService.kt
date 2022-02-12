@@ -4,6 +4,8 @@ import br.dev.multicode.games.api.http.requests.GameRequest
 import br.dev.multicode.games.api.http.responses.GameResponse
 import br.dev.multicode.games.entities.Game
 import br.dev.multicode.games.repositories.GameRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.persistence.EntityNotFoundException
@@ -28,5 +30,10 @@ class GameService internal constructor(private val gameRepository: GameRepositor
         return gameRepository.findById(gameId.toString())
                 .map { gameFound -> gameFound.toGameResponse() }
                 .orElseThrow { EntityNotFoundException() }
+    }
+
+    fun findAll(offset: Int, limit: Int): Page<GameResponse> {
+        return gameRepository.findAll(PageRequest.of(offset, limit))
+                .map { game -> game.toGameResponse() }
     }
 }

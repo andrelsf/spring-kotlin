@@ -19,10 +19,16 @@ class GameResource (private val gameService: GameService)
 {
     @PostMapping
     fun postGame(@RequestBody @Valid gameRequest: GameRequest): ResponseEntity<GameResponse> =
-            ResponseEntity.status(HttpStatus.CREATED)
-                    .body(gameService.create(gameRequest))
+        ResponseEntity.status(HttpStatus.CREATED)
+                .body(gameService.create(gameRequest))
+
+    @GetMapping
+    fun getAllGames(@RequestParam(name = "offset", required = false) offset: Int,
+        @RequestParam(name = "limit", required = false) limit: Int): ResponseEntity<List<GameResponse>> =
+        ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+                    .body(gameService.findAll(offset, limit).content)
 
     @GetMapping("/{gameId}")
     fun getGame(@PathVariable("gameId") gameId: UUID): ResponseEntity<GameResponse>  =
-            ResponseEntity.ok(gameService.findById(gameId))
+        ResponseEntity.ok(gameService.findById(gameId))
 }
