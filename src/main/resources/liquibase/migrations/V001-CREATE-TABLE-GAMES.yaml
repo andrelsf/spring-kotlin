@@ -30,6 +30,11 @@ databaseChangeLog:
                   name: platform
                   type: VARCHAR(20)
               - column:
+                  name: price
+                  type: DECIMAL(9,2)
+                  constraints:
+                    nullable: false
+              - column:
                   name: created_at
                   type: TIMESTAMP
                   defaultValueComputed: CURRENT_TIMESTAMP
