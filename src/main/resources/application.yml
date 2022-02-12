@@ -6,6 +6,7 @@ spring:
     name: games-kotlin
   datasource:
     db-kind: postgresql
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/games
     username: postgres
     password: postgres
@@ -13,7 +14,11 @@ spring:
     database:
       generation: drop-and-create
   liquibase:
-    migrate-at-start: true
+    enabled: true
+    driverClassName: ${spring.datasource.driver-class-name}
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
     change-log: "classpath:liquibase/changelog.yml"
   log:
     console:
