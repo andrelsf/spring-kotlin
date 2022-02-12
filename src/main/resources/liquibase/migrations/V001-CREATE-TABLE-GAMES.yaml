@@ -1,31 +1,52 @@
-changes:
-  - createTable:
-      tableName: tb_games
-      columns:
-        - column:
-            name: game_id
-            type: VARCHAR(37)
-            autoIncrement: false
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: name
-            type: VARCHAR(255)
-            constraints:
-              nullable: false
-        - column:
-            name: description
-            type: VARCHAR(255)
-            constraints:
-              nullable: false
-        - column:
-            name: platform
-            type: VARCHAR(20)
-            constraints:
-              nullable: false
-        - column:
-            name: PRICE
-            type: DECIMAL(9,2)
-            constaints:
-              nullable: false
+databaseChangeLog:
+  - changeSet:
+      id: V001
+      author: "andre.dev.linux@gmail.com"
+      comments: "Create Table Games"
+      changes:
+        - createTable:
+            tableName: tb_games
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  name: game_id
+                  type: VARCHAR(37)
+                  autoIncrement: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  constraints:
+                    nullable: false
+                  name: platform
+                  type: VARCHAR(20)
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: V002
+      author: andre.dev.linux@gmail.com
+      changes:
+        - addUniqueConstraint:
+            columnNames: game_id
+            constraintName: unique-game-id-constraint
+            tableName: tb_games

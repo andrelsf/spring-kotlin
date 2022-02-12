@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/migrations/V001-CREATE-TABLE-GAMES.yaml

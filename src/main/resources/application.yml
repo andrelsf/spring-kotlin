@@ -10,16 +10,13 @@ spring:
     url: jdbc:postgresql://localhost:5432/games
     username: postgres
     password: postgres
-  hibernate-orm:
-    database:
-      generation: drop-and-create
   liquibase:
     enabled: true
     driverClassName: ${spring.datasource.driver-class-name}
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-    change-log: "classpath:liquibase/changelog.yml"
+    change-log: "classpath:liquibase/changelog-master.yaml"
   log:
     console:
       enable: true
