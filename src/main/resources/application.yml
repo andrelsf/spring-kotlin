@@ -4,3 +4,19 @@ server:
 spring:
   application:
     name: games-kotlin
+  datasource:
+    db-kind: postgresql
+    url: jdbc:postgresql://localhost:5432/games
+    username: postgres
+    password: postgres
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+  liquibase:
+    migrate-at-start: true
+    change-log: "classpath:liquibase/changelog.yml"
+  log:
+    console:
+      enable: true
+      level: INFO
+      format: "%d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n"

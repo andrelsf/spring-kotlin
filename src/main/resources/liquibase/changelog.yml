@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: V001
+      author: "Andre Ferreira"
+      comment: "Create table games"
+      yamlFile:
+        encoding: utf8
+        relativeToChangelogFile: true
+        stripComments: true
+        path: "migrations/V001-CREATE-TABLE-GAMES.yaml"

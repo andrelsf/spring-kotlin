@@ -1,0 +1,31 @@
+changes:
+  - createTable:
+      tableName: tb_games
+      columns:
+        - column:
+            name: game_id
+            type: VARCHAR(37)
+            autoIncrement: false
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name
+            type: VARCHAR(255)
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: VARCHAR(255)
+            constraints:
+              nullable: false
+        - column:
+            name: platform
+            type: VARCHAR(20)
+            constraints:
+              nullable: false
+        - column:
+            name: PRICE
+            type: DECIMAL(9,2)
+            constaints:
+              nullable: false

@@ -11,7 +11,7 @@
   </parent>
   <groupId>br.dev.multicode</groupId>
   <artifactId>games</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>games</name>
   <description>games</description>
   <properties>
