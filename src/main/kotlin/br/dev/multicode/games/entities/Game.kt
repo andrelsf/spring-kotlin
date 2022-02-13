@@ -19,17 +19,17 @@ data class Game (
     private val gameId: String? = null,
 
     @Column(nullable = false)
-    val name: String? = null,
+    var name: String? = null,
 
     @Column(nullable = false)
-    val description: String? = null,
+    var description: String? = null,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    val platform: Platform? = null,
+    var platform: Platform? = null,
 
     @Column(nullable = false)
-    val price: BigDecimal? = null,
+    var price: BigDecimal? = null,
 
     private var createdAt: ZonedDateTime? = ZonedDateTime.now(),
     private var updatedAt: ZonedDateTime? = ZonedDateTime.now())
@@ -41,7 +41,17 @@ data class Game (
             platform = this.platform.toString(),
             price = this.price.toString())
 
-    companion object {
+    fun fillWith(game: Game, gameRequest: GameRequest): Game
+    {
+        game.name = gameRequest.name
+        game.description = gameRequest.description
+        game.platform = gameRequest.platform
+        game.price = gameRequest.price
+        return game
+    }
+
+    companion object
+    {
         fun from(gameRequest: GameRequest) = Game(
                 name = gameRequest.name,
                 description = gameRequest.description,

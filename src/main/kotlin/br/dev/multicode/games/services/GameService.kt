@@ -32,8 +32,17 @@ class GameService internal constructor(private val gameRepository: GameRepositor
                 .orElseThrow { EntityNotFoundException() }
     }
 
-    fun findAll(offset: Int, limit: Int): Page<GameResponse> {
+    fun findAll(offset: Int, limit: Int): Page<GameResponse>
+    {
         return gameRepository.findAll(PageRequest.of(offset, limit))
                 .map { game -> game.toGameResponse() }
+    }
+
+    fun update(gameId: UUID, gameRequest: GameRequest)
+    {
+        gameRepository.findById(gameId.toString())
+                .ifPresentOrElse({gameFound ->
+                    gameRepository.save(gameFound.fillWith(gameFound, gameRequest)) },
+                { EntityNotFoundException() })
     }
 }

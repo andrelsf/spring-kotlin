@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
-
 @RestController
 @RequestMapping(
     value = ["/api/games"],
@@ -31,4 +30,10 @@ class GameResource (private val gameService: GameService)
     @GetMapping("/{gameId}")
     fun getGame(@PathVariable("gameId") gameId: UUID): ResponseEntity<GameResponse>  =
         ResponseEntity.ok(gameService.findById(gameId))
+
+    @PutMapping("/{gameId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun putGame(@PathVariable("gameId") gameId: UUID, @RequestBody @Valid gameRequest: GameRequest) =
+        gameService.update(gameId, gameRequest)
+
 }
