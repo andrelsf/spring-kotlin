@@ -4,6 +4,7 @@ import br.dev.multicode.games.api.http.requests.GameRequest
 import br.dev.multicode.games.api.http.responses.GameResponse
 import br.dev.multicode.games.entities.Game
 import br.dev.multicode.games.repositories.GameRepository
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -48,6 +49,11 @@ class GameService internal constructor(private val gameRepository: GameRepositor
 
     fun delete(gameId: UUID)
     {
-        gameRepository.deleteById(gameId.toString())
+        try {
+            gameRepository.deleteById(gameId.toString())
+        } catch (e: EmptyResultDataAccessException) {
+            throw EmptyResultDataAccessException("Failed to delete entity by ID: "
+                    .plus(gameId.toString().plus(" ERROR: ".plus(e.message))), Int.MAX_VALUE, e)
+        }
     }
 }
