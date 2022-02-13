@@ -1,10 +1,11 @@
-package br.dev.multicode.games.services
+package br.dev.multicode.games.services.impl
 
 import br.dev.multicode.games.api.http.requests.GameRequest
 import br.dev.multicode.games.api.http.requests.PatchGameRequest
 import br.dev.multicode.games.api.http.responses.GameResponse
 import br.dev.multicode.games.entities.Game
 import br.dev.multicode.games.repositories.GameRepository
+import br.dev.multicode.games.services.GameService
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -15,9 +16,10 @@ import javax.transaction.Transactional
 
 @Service
 @Transactional
-class GameService internal constructor(private val gameRepository: GameRepository)
+class GameServiceImpl internal constructor(
+        private val gameRepository: GameRepository): GameService
 {
-    fun create(gameRequest: GameRequest): GameResponse
+    override fun create(gameRequest: GameRequest): GameResponse
     {
         try {
             return gameRepository.save(Game.from(gameRequest))
@@ -27,20 +29,20 @@ class GameService internal constructor(private val gameRepository: GameRepositor
         }
     }
 
-    fun findById(gameId: UUID): GameResponse
+    override fun findById(gameId: UUID): GameResponse
     {
         return gameRepository.findById(gameId.toString())
                 .map { gameFound -> gameFound.toGameResponse() }
                 .orElseThrow { EntityNotFoundException() }
     }
 
-    fun findAll(offset: Int, limit: Int): Page<GameResponse>
+    override fun findAll(offset: Int, limit: Int): Page<GameResponse>
     {
         return gameRepository.findAll(PageRequest.of(offset, limit))
                 .map { game -> game.toGameResponse() }
     }
 
-    fun update(gameId: UUID, gameRequest: GameRequest)
+    override fun update(gameId: UUID, gameRequest: GameRequest)
     {
         gameRepository.findById(gameId.toString())
                 .ifPresentOrElse({gameFound ->
@@ -48,7 +50,7 @@ class GameService internal constructor(private val gameRepository: GameRepositor
                 { EntityNotFoundException() })
     }
 
-    fun delete(gameId: UUID)
+    override fun delete(gameId: UUID)
     {
         try {
             gameRepository.deleteById(gameId.toString())
@@ -58,7 +60,7 @@ class GameService internal constructor(private val gameRepository: GameRepositor
         }
     }
 
-    fun updatePartialContent(gameId: UUID, patchGameRequest: PatchGameRequest)
+    override fun updatePartialContent(gameId: UUID, patchGameRequest: PatchGameRequest)
     {
         gameRepository.findById(gameId.toString())
                 .ifPresentOrElse({ gameFound ->
