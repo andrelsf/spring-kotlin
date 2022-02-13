@@ -1,12 +1,18 @@
 package br.dev.multicode.games.entities
 
 import br.dev.multicode.games.api.http.requests.GameRequest
+import br.dev.multicode.games.api.http.requests.PatchGameRequest
 import br.dev.multicode.games.api.http.responses.GameResponse
+import org.apache.commons.lang3.ObjectUtils
+import org.apache.commons.lang3.ObjectUtils.defaultIfNull
+import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.StringUtils.defaultIfBlank
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
 import java.math.BigDecimal
 import java.time.ZonedDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -47,6 +53,15 @@ data class Game (
         game.description = gameRequest.description
         game.platform = gameRequest.platform
         game.price = gameRequest.price
+        return game
+    }
+
+    fun fillWith(game: Game, patchGameRequest: PatchGameRequest): Game
+    {
+        game.name = defaultIfBlank(patchGameRequest.name, game.name)
+        game.description = defaultIfBlank(patchGameRequest.description, game.description)
+        game.platform = defaultIfNull(patchGameRequest.platform, game.platform)
+        game.price = defaultIfNull(patchGameRequest.price, game.price)
         return game
     }
 

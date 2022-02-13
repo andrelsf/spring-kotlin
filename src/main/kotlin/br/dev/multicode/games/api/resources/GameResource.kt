@@ -1,6 +1,7 @@
 package br.dev.multicode.games.api.resources
 
 import br.dev.multicode.games.api.http.requests.GameRequest
+import br.dev.multicode.games.api.http.requests.PatchGameRequest
 import br.dev.multicode.games.api.http.responses.GameResponse
 import br.dev.multicode.games.services.GameService
 import org.springframework.http.HttpStatus
@@ -35,6 +36,11 @@ class GameResource (private val gameService: GameService)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun putGame(@PathVariable("gameId") gameId: UUID, @RequestBody @Valid gameRequest: GameRequest) =
         gameService.update(gameId, gameRequest)
+
+    @PatchMapping("/{gameId}")
+    @ResponseStatus(HttpStatus.PARTIAL_CONTENT)
+    fun patchGame(@PathVariable("gameId") gameId: UUID, @RequestBody patchGameRequest: PatchGameRequest) =
+            gameService.updatePartialContent(gameId, patchGameRequest)
 
     @DeleteMapping("/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -1,6 +1,7 @@
 package br.dev.multicode.games.services
 
 import br.dev.multicode.games.api.http.requests.GameRequest
+import br.dev.multicode.games.api.http.requests.PatchGameRequest
 import br.dev.multicode.games.api.http.responses.GameResponse
 import br.dev.multicode.games.entities.Game
 import br.dev.multicode.games.repositories.GameRepository
@@ -55,5 +56,13 @@ class GameService internal constructor(private val gameRepository: GameRepositor
             throw EmptyResultDataAccessException("Failed to delete entity by ID: "
                     .plus(gameId.toString().plus(" ERROR: ".plus(e.message))), Int.MAX_VALUE, e)
         }
+    }
+
+    fun updatePartialContent(gameId: UUID, patchGameRequest: PatchGameRequest)
+    {
+        gameRepository.findById(gameId.toString())
+                .ifPresentOrElse({ gameFound ->
+                    gameRepository.save(gameFound.fillWith(gameFound, patchGameRequest)) },
+                { EntityNotFoundException() })
     }
 }
