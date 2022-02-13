@@ -45,4 +45,9 @@ class GameService internal constructor(private val gameRepository: GameRepositor
                     gameRepository.save(gameFound.fillWith(gameFound, gameRequest)) },
                 { EntityNotFoundException() })
     }
+
+    fun delete(gameId: UUID)
+    {
+        gameRepository.deleteById(gameId.toString())
+    }
 }

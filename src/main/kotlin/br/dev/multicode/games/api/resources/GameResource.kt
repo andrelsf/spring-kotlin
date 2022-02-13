@@ -36,4 +36,8 @@ class GameResource (private val gameService: GameService)
     fun putGame(@PathVariable("gameId") gameId: UUID, @RequestBody @Valid gameRequest: GameRequest) =
         gameService.update(gameId, gameRequest)
 
+    @DeleteMapping("/{gameId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteGame(@PathVariable("gameId") gameId: UUID) =
+            gameService.delete(gameId)
 }
