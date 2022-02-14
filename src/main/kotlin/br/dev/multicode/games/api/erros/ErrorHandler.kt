@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import javax.persistence.EntityNotFoundException
 import javax.servlet.http.HttpServletRequest
 
 @ControllerAdvice
@@ -16,7 +17,7 @@ class ErrorHandler {
 
     var logger: Logger = LoggerFactory.getLogger(ErrorHandler::class.java)
 
-    @ExceptionHandler(EmptyResultDataAccessException::class)
+    @ExceptionHandler(EmptyResultDataAccessException::class, EntityNotFoundException::class)
     fun emptyResultDataAccessExceptionHandler(servletRequest: HttpServletRequest, exception: Exception): ResponseEntity<ErrorResponse>
     {
         logger.error(exception.message, exception)

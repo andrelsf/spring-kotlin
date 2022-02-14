@@ -42,10 +42,10 @@ class GameResource (private val gameService: GameService)
     @PatchMapping("/{gameId}")
     @ResponseStatus(HttpStatus.PARTIAL_CONTENT)
     fun patchGame(@PathVariable("gameId") gameId: UUID, @RequestBody patchGameRequest: PatchGameRequest) =
-            gameService.updatePartialContent(gameId, patchGameRequest)
+        gameService.updatePartialContent(gameId, patchGameRequest)
 
     @DeleteMapping("/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteGame(@PathVariable("gameId") gameId: UUID) =
-            gameService.delete(gameId)
+        gameService.delete(gameId)
 }

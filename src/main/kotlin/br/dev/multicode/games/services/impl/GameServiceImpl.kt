@@ -33,7 +33,7 @@ class GameServiceImpl internal constructor(
     {
         return gameRepository.findById(gameId.toString())
                 .map { gameFound -> gameFound.toGameResponse() }
-                .orElseThrow { EntityNotFoundException() }
+                .orElseThrow { throw EntityNotFoundException() }
     }
 
     override fun findAll(offset: Int, limit: Int): Page<GameResponse>
@@ -45,9 +45,8 @@ class GameServiceImpl internal constructor(
     override fun update(gameId: UUID, gameRequest: GameRequest)
     {
         gameRepository.findById(gameId.toString())
-                .ifPresentOrElse({gameFound ->
-                    gameRepository.save(gameFound.fillWith(gameFound, gameRequest)) },
-                { EntityNotFoundException() })
+                .ifPresentOrElse({ gameFound -> gameRepository.save(gameFound.fillWith(gameFound, gameRequest)) },
+                        { throw EntityNotFoundException() })
     }
 
     override fun delete(gameId: UUID)
@@ -63,8 +62,7 @@ class GameServiceImpl internal constructor(
     override fun updatePartialContent(gameId: UUID, patchGameRequest: PatchGameRequest)
     {
         gameRepository.findById(gameId.toString())
-                .ifPresentOrElse({ gameFound ->
-                    gameRepository.save(gameFound.fillWith(gameFound, patchGameRequest)) },
-                { EntityNotFoundException() })
+                .ifPresentOrElse({ gameFound -> gameRepository.save(gameFound.fillWith(gameFound, patchGameRequest)) },
+                    { throw EntityNotFoundException() })
     }
 }
